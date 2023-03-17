@@ -26,7 +26,7 @@ router.post("/login", function (req, res, next) {});
 
 router.post("/register", function (req, res, next) {
   var dulieu = req.body;
-  console.log(data);
+  console.log(dulieu);
   var checkmail, checkusername;
   taikhoan.find({ username: dulieu.username }).then((data) => {
     if (data.length > 0) {
