@@ -1,12 +1,14 @@
+const { log } = require("console");
 var express = require("express");
 var router = express.Router();
 const http = require("http");
 const mongoose = require("mongoose");
 mongoose
-    .connect("mongodb+srv://admin:admin@cluster0.yw7opqt.mongodb.net/test")
-    .then((error) => {
-      if (error == null) console.log("Connect Success");
-    });
+  .connect("mongodb+srv://admin:admin@cluster0.yw7opqt.mongodb.net/test")
+  .then((error) => {
+    if (error == null) console.log("Connect Success");
+  });
+
 const account = new mongoose.Schema({
   username: String,
   password: String,
@@ -17,41 +19,43 @@ const taikhoan = mongoose.model("Account", account);
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
-  res.render("index");
+  res.render("index", { title: "Hello" });
 });
 
 router.post("/login", function (req, res, next) {});
+
 router.post("/register", function (req, res, next) {
-  var data = req.body;
-  var reply = { replyusername: true, replyemail: true };
-  taikhoan.find({ username: data.username }).then((data) => {
+  var dulieu = req.body;
+  console.log(data);
+  var checkmail, checkusername;
+  taikhoan.find({ username: dulieu.username }).then((data) => {
     if (data.length > 0) {
-      reply.replyusername = false;
+      console.log(data.length);
+      checkusername = false;
+    } else {
+      checkusername = true;
     }
   });
-  taikhoan.find({ email: data.email }).then((data) => {
+  taikhoan.find({ email: dulieu.email }).then((data) => {
     if (data.length > 0) {
-      reply.replyemail = false;
+      console.log(data.length);
+      checkmail = false;
+    } else {
+      checkmail = true;
     }
   });
-  if (reply.replyusername && reply.replyemail) {
+  if (checkmail && checkusername) {
     var tkmoi = new taikhoan({
-      username: data.username,
-      password: data.password,
-      email: data.email,
-      fullname: data.fullname,
+      username: dulieu.username,
+      password: dulieu.password,
+      email: dulieu.email,
+      fullname: dulieu.fullname,
     });
-    tkmoi.save((err) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log("Đăng ký thành công");
-      }
-    });
+    tkmoi.save().then(() => console.log("Đăng ký thành công"));
   } else {
     console.log("Đăng ký thất bại do trùng tên hoặc email");
   }
-  res.send(reply);
+  res.send({ checkemail: checkmail, checkusername: checkusername });
 });
 
 module.exports = router;
