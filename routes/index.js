@@ -27,36 +27,27 @@ router.post("/login", function (req, res, next) {});
 router.post("/register", function (req, res, next) {
   var dulieu = req.body;
   console.log(dulieu);
-  var checkmail, checkusername;
+
   taikhoan.find({ username: dulieu.username }).then((data) => {
     if (data.length > 0) {
-      console.log(data.length);
-      checkusername = false;
+      res.send({ checkusername: false, checkemail: false });
     } else {
-      checkusername = true;
+      taikhoan.find({ email: dulieu.email }).then((data) => {
+        if (data.length > 0) {
+          res.send({ checkusername: true, checkemail: false });
+        } else {
+          var tkmoi = new taikhoan({
+            username: dulieu.username,
+            password: dulieu.password,
+            email: dulieu.email,
+            fullname: dulieu.fullname,
+          });
+          tkmoi.save().then(() => console.log("Đăng ký thành công"));
+          res.send({ checkusername: true, checkemail: true });
+        }
+      });
     }
   });
-  taikhoan.find({ email: dulieu.email }).then((data) => {
-    if (data.length > 0) {
-      console.log(data.length);
-      checkmail = false;
-    } else {
-      checkmail = true;
-    }
-  });
-  console.log("Đây nè" + checkmail + " " + checkusername);
-  if (checkmail && checkusername) {
-    var tkmoi = new taikhoan({
-      username: dulieu.username,
-      password: dulieu.password,
-      email: dulieu.email,
-      fullname: dulieu.fullname,
-    });
-    tkmoi.save().then(() => console.log("Đăng ký thành công"));
-  } else {
-    console.log("Đăng ký thất bại do trùng tên hoặc email");
-  }
-  res.send({ checkemail: checkmail, checkusername: checkusername });
 });
 
 module.exports = router;
