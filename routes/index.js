@@ -44,6 +44,7 @@ router.post("/register", function (req, res, next) {
       checkmail = true;
     }
   });
+  console.log("Đây nè" + checkmail + " " + checkusername);
   if (checkmail && checkusername) {
     var tkmoi = new taikhoan({
       username: dulieu.username,
