@@ -30,10 +30,12 @@ router.post("/register", function (req, res, next) {
 
   taikhoan.find({ username: dulieu.username }).then((data) => {
     if (data.length > 0) {
+      console.log("Trùng username");
       res.send({ checkusername: false, checkemail: false });
     } else {
       taikhoan.find({ email: dulieu.email }).then((data) => {
         if (data.length > 0) {
+          console.log("trùng email");
           res.send({ checkusername: true, checkemail: false });
         } else {
           var tkmoi = new taikhoan({
