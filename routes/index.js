@@ -8,7 +8,7 @@ mongoose
     .then((error) => {
         if (error == null) console.log("Connect Success");
     });
-
+//hello các bạn
 const account = new mongoose.Schema({
     username: String,
     password: String,
