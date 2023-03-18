@@ -22,7 +22,21 @@ router.get("/", function (req, res, next) {
   res.render("index", { title: "Hello" });
 });
 
-router.post("/login", function (req, res, next) {});
+router.post("/login", function (req, res, next) {
+  var dulieu = req.body;
+  console.log(dulieu);
+  taikhoan
+    .find({ username: dulieu.username, password: dulieu.password })
+    .then((data) => {
+      if (data.length > 0) {
+        console.log("Đăng nhập thành công");
+        res.send({ checklogin: true });
+      } else {
+        console.log("Đăng nhập thất bại. Sai tài khoản hoặc mật khẩu");
+        res.send({ checklogin: false });
+      }
+    });
+});
 
 router.post("/register", function (req, res, next) {
   var dulieu = req.body;
