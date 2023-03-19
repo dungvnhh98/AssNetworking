@@ -6,7 +6,9 @@
 </head>
 <body>
 <h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
+<p>Welcome to <%= data.name %></p>
+<img alt="không load đc" src=<%= data.anhbia %> >
+<br>
 <% for (var i = 0; i < data.noidung.length; i++) { %>
     <img src=<%= data.noidung[i] %>>
     <br>
