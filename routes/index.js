@@ -30,6 +30,14 @@ const comic = new mongoose.Schema({
 })
 const truyentranh = mongoose.model("Comic", comic);
 
+const comment = new mongoose.Schema({
+    idcomic: String,
+    username: String,
+    noidung: String,
+    thoigian: String,
+})
+const binhluan = mongoose.model("Comment", comment);
+
 /* GET home page. */
 router.get("/", function (req, res, next) {
     // var truyenmoi = new truyentranh({
@@ -83,7 +91,12 @@ router.get("/", function (req, res, next) {
     })
 
 });
+router.get("/gettruyen", function (req, res, next) {
+    truyentranh.find({}).then((data) => {
+        res.send(data);
+    })
 
+});
 router.post("/login", function (req, res, next) {
     var dulieu = req.body;
     console.log(dulieu);
@@ -127,5 +140,24 @@ router.post("/register", function (req, res, next) {
         }
     });
 });
-
+router.get("/getbinhluan", function (req, res, next) {
+    binhluan.find({}).then((data) => {
+        res.send(data);
+    })
+});
+router.post("/postbinhluan", function (req, res, next) {
+    var dulieu = req.body;
+    var binhluanmoi = new binhluan({
+        idcomic: dulieu.idcomic,
+        username: dulieu.username,
+        noidung: dulieu.noidung,
+        thoigian: dulieu.thoigian
+    })
+    binhluanmoi.save().then(()=>{
+        console.log("Đã lưu bình luận");
+        binhluan.find({}).then((data)=>{
+            res.send(data)
+        })
+    })
+});
 module.exports = router;
