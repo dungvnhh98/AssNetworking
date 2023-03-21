@@ -141,7 +141,8 @@ router.post("/register", function (req, res, next) {
     });
 });
 router.get("/getbinhluan", function (req, res, next) {
-    binhluan.find({}).then((data) => {
+    var idtruyen = req.body.idcomic;
+    binhluan.find({idcomic: idtruyen}).then((data) => {
         res.send(data);
     })
 });
