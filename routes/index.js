@@ -41,9 +41,9 @@ const binhluan = mongoose.model("Comment", comment);
 /* GET home page. */
 router.get("/", function (req, res, next) {
     // var truyenmoi = new truyentranh({
-    //     id: "dragonball",
-    //     name: "Dragon Ball - Super",
-    //     mota: "Câu chuyện của Dragon Ball Super diễn ra ngay sau khi chiến đấu với Ma Nhân Bư, cuộc sống ở trái đất lại được hòa bình thêm 1 lần nữa. Sau đó vì nhà gần như hết tiền để chi tiêu Chichi tiền ra lệnh cho Goku phải đi kiếm tiền, và không được phép luyện tập trong thời gian này!! Videl sắp trở thành chị dâu của Goten nên Goten đã đặt ra một cuộc hành trình cùng với TRunks để tìm cho Videl một món quà!",
+    //     id: "opm",
+    //     name: "One Punch Man",
+    //     mota: "phải đi kiếm tiền, và không được phép luyện tập trong thời gian này!! Videl sắp trở thành chị dâu của Goten nên Goten đã đặt ra một cuộc hành trình cùng với TRunks để tìm cho Videl một món quà!",
     //     tacgia: "Akira Toriyama, Toyotarou",
     //     namxuatban: 2021,
     //     anhbia: "images/dragonball/anhbia.jpg",
@@ -86,8 +86,34 @@ router.get("/", function (req, res, next) {
     // truyenmoi.save().then(()=>{
     //     console.log("đã lưu")
     // });
+    const filter = {id: "opm"}
+    const update = {
+        noidung: [
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/002-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/003-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/004-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/005-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/006-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/007-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/008-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/009-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/010-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/011-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/012-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/013-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/014-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/015-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/016-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/017-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/018-fix.jpg?data=net",
+            "https://i221.ntcdntempv3.com/data/images/4389/80034/019-fix.jpg?data=net",
+        ]
+    }
+    // truyentranh.findOneAndUpdate(filter,update).then(()=>{
+    //     console.log("đã sửa")
+    // })
     truyentranh.find({}).then((data) => {
-        res.render("index", {title: "Hello", data: data[4]});
+        res.render("index", {title: "Hello", data: data[3]});
     })
 
 });
@@ -96,6 +122,9 @@ router.get("/gettruyen", function (req, res, next) {
         res.send(data);
     })
 
+});
+router.get("/uploads", function (req, res, next) {
+    res.sendfile("./public/images/op/002-fix.jpg");
 });
 router.post("/login", function (req, res, next) {
     var dulieu = req.body;
@@ -154,9 +183,9 @@ router.post("/postbinhluan", function (req, res, next) {
         noidung: dulieu.noidung,
         thoigian: dulieu.thoigian
     })
-    binhluanmoi.save().then(()=>{
+    binhluanmoi.save().then(() => {
         console.log("Đã lưu bình luận");
-        binhluan.find({}).then((data)=>{
+        binhluan.find({}).then((data) => {
             res.send(data)
         })
     })
